@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
-
 const NoteList = () => {
 	const [notes, setNotes] = useState([]);
 	const [loaded, setLoaded] = useState(false);
@@ -77,3 +76,4 @@ const NoteList = () => {
 };
 
 export default NoteList;
+
