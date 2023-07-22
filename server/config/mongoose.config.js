@@ -2,35 +2,13 @@ const mongoose = require('mongoose');
 const dbName = process.env.DB;
 const username = process.env.ATLAS_USERNAME;
 const pw = process.env.ATLAS_PASSWORD;
+const uri = `mongodb+srv://${username}:${pw}@cluster0.nu0mw2t.mongodb.net/${dbName}?retryWrites=true&w=majority`;
+mongoose.connect(uri, {
+	useNewUrlParser: true,
+	useUnifiedTopology: true
+})
+.then(() => console.log(`SWEEET YOUR CONNECTED TO DATABASE: ${dbName}`))
+.catch((err) =>
+	console.error("Something went wrong when connecting to the database", err)
+);
 
-
-
-
-const { MongoClient, ServerApiVersion } = require("mongodb");
-const uri =
-	"mongodb+srv://thet00thbruh:<password>@cluster0.nu0mw2t.mongodb.net/?retryWrites=true&w=majority";
-
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
-const client = new MongoClient(uri, {
-	serverApi: {
-		version: ServerApiVersion.v1,
-		strict: true,
-		deprecationErrors: true,
-	},
-});
-
-async function run() {
-	try {
-		// Connect the client to the server	(optional starting in v4.7)
-		await client.connect();
-		// Send a ping to confirm a successful connection
-		await client.db("admin").command({ ping: 1 });
-		console.log(
-			"Pinged your deployment. You successfully connected to MongoDB!"
-		);
-	} finally {
-		// Ensures that the client will close when you finish/error
-		await client.close();
-	}
-}
-run().catch(console.dir);
