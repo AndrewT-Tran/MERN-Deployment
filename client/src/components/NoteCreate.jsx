@@ -10,7 +10,7 @@ const NoteCreate = () => {
 
 	const navigate = useNavigate();
 
-	const handleSubmit = (event) => {
+	async function handleSubmit(event) {
 		event.preventDefault();
 		if (!noteTitle) {
 			setErrors({ noteTitle: "Note title cannot be empty" });
@@ -35,7 +35,7 @@ const NoteCreate = () => {
 				if (err.response && err.response.data) {
 					const filteredErrors = Object.fromEntries(
 						Object.entries(err.response.data.errors).filter(
-							([key, value]) => key === "noteTitle" || key === "noteBody"
+							([key]) => key === "noteTitle" || key === "noteBody"
 						)
 					);
 					setErrors(filteredErrors);
@@ -43,7 +43,7 @@ const NoteCreate = () => {
 					console.error(err);
 				}
 			});
-	};
+	}
 
 	return (
 		<div>
