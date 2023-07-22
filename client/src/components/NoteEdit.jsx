@@ -8,6 +8,7 @@ const Edit = () => {
 	const [note, setNote] = useState({ noteTitle: "", noteBody: "" });
 	const [errors, setErrors] = useState({});
 
+
 	useEffect(() => {
 		axios
 			.get(`http://localhost:8000/api/NoteWall/${id}`)

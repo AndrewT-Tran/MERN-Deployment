@@ -40,7 +40,7 @@ const NoteCreate = () => {
 					);
 					setErrors(filteredErrors);
 				} else {
-					alert.error(err);
+					console.error(err);
 				}
 			});
 	};

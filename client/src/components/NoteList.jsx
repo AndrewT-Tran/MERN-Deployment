@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
+
 const NoteList = () => {
 	const [notes, setNotes] = useState([]);
 	const [loaded, setLoaded] = useState(false);
@@ -11,17 +12,21 @@ const NoteList = () => {
 		axios
 			.get("http://localhost:8000/api/NoteWall")
 			.then((res) => {
-				const sortedNotes = res.data.sort((a, b) => {
-					if (sortOrder === "oldest") {
-						return new Date(a.createdAt) - new Date(b.createdAt);
-					} else {
-						return new Date(b.createdAt) - new Date(a.createdAt);
-					}
-				});
-				setNotes(sortedNotes);
-				setLoaded(true);
+				if (Array.isArray(res.data)) {
+					const sortedNotes = res.data.sort((a, b) => {
+						if (sortOrder === "oldest") {
+							return new Date(a.createdAt) - new Date(b.createdAt);
+						} else {
+							return new Date(b.createdAt) - new Date(a.createdAt);
+						}
+					});
+					setNotes(sortedNotes);
+					setLoaded(true);
+				} else {
+					console.error("Data is not an array:", res.data);
+				}
 			})
-			.catch((err) => console.error(err));
+			.catch((err) => console.error(err.message));
 	}, [sortOrder]);
 
 	const handleSortOrderChange = (order) => {
