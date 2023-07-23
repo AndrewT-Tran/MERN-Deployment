@@ -34,7 +34,7 @@ const NoteCreate = () => {
 			.catch((err) => {
 				if (err.response && err.response.data) {
 					const filteredErrors = Object.fromEntries(
-						Object.entries(err.response.data.errors).filter(
+						Object.entries(err.response.data.errors || {}).filter(
 							([key]) => key === "noteTitle" || key === "noteBody"
 						)
 					);
