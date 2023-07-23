@@ -10,40 +10,40 @@ const NoteCreate = () => {
 
 	const navigate = useNavigate();
 
-	async function handleSubmit(event) {
-		event.preventDefault();
-		if (!noteTitle) {
-			setErrors({ noteTitle: "Note title cannot be empty" });
-			return;
-		}
-		if (!noteBody) {
-			setErrors({ noteBody: "Note body cannot be empty" });
-			return;
-		}
-		axios
-			.post("http://localhost:8000/api/NoteWall/", {
-				noteTitle,
-				noteBody,
-			})
-			.then((res) => {
-				console.log(res);
-				setNoteTitle("");
-				setNoteBody("");
-			})
-			.then(() => navigate("/"))
-			.catch((err) => {
-				if (err.res && err.res.data) {
-					const filteredErrors = Object.fromEntries(
-						Object.entries(err.res.data.errors).filter(
-							([key]) => key === "noteTitle" || key === "noteBody"
-						)
-					);
-					setErrors(filteredErrors);
-				} else {
-					console.error(err);
-				}
-			});
+async function handleSubmit(event) {
+	event.preventDefault();
+
+	if (!noteTitle) {
+		setErrors({ noteTitle: "Note title cannot be empty" });
+		return;
 	}
+
+	if (!noteBody) {
+		setErrors({ noteBody: "Note body cannot be empty" });
+		return;
+	}
+
+	// Check if formData is null or undefined
+	if (!formData) {
+		return;
+	}
+
+	const entries = Object.entries(formData);
+	const data = Object.fromEntries(entries);
+
+	try {
+		const response = await axios.post(
+			"http://localhost:8000/api/NoteWall/",
+			data
+		);
+		console.log(response);
+		setNoteTitle("");
+		setNoteBody("");
+		navigate("/");
+	} catch (error) {
+		console.error(error);
+	}
+}
 
 	return (
 		<div>
