@@ -32,9 +32,9 @@ const NoteCreate = () => {
 			})
 			.then(() => navigate("/"))
 			.catch((err) => {
-				if (err.response && err.response.data) {
+				if (err.res && err.res.data) {
 					const filteredErrors = Object.fromEntries(
-						Object.entries(err.response.data.errors).filter(
+						Object.entries(err.res.data.errors).filter(
 							([key]) => key === "noteTitle" || key === "noteBody"
 						)
 					);
